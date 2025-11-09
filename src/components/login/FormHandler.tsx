@@ -33,17 +33,68 @@ export default function FormHandler() {
             ? "Impossible is what we do best!"
             : "Let’s get you set up in under a minute.";
 
-    const startGoogle = () => {
+    // const startGoogle = () => {
+    //     if (!AUTH_BASE) {
+    //         console.error("NEXT_PUBLIC_AUTH_BASE_URL is missing");
+    //         return;
+    //     }
+    //     setGLoading(true);
+    //     // Full page redirect → /api/auth/google/start
+    //     window.location.replace(`${AUTH_BASE}/google/start`);
+    //     // window.location.replace('/api/auth/google/start'); // or '/auth/google/start' if that's your rewrite
+
+    // };
+
+    function startGoogle() {
         if (!AUTH_BASE) {
             console.error("NEXT_PUBLIC_AUTH_BASE_URL is missing");
             return;
         }
-        setGLoading(true);
-        // Full page redirect → /api/auth/google/start
-        window.location.replace(`${AUTH_BASE}/google/start`);
-        // window.location.replace('/api/auth/google/start'); // or '/auth/google/start' if that's your rewrite
-        
-    };
+
+        // hardcoded final redirect target
+        const redirectTo = "http://localhost:3000";
+
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = `${AUTH_BASE}/google/start`;
+
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "redirectTo";
+        input.value = redirectTo;
+        form.appendChild(input);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    function startGoogleFlow({ redirectTo, popup = false }: { redirectTo?: string; popup?: boolean } = {}) {
+        if (!AUTH_BASE) {
+            console.error("NEXT_PUBLIC_AUTH_BASE_URL is missing");
+            return;
+        }
+        let rel = "/vaultx/dashboard";
+        try {
+            const u = new URL(window.location.href);
+            rel = `${u.pathname}${u.search}${u.hash}` || "/vaultx/dashboard";
+        } catch { }
+        const finalRedirectTo = redirectTo || rel;
+
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = `${AUTH_BASE}/google/start${popup ? "?mode=popup" : ""}`;
+
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "redirectTo";
+        input.value = finalRedirectTo;
+        form.appendChild(input);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+
 
     return (
         <div className="w-full">

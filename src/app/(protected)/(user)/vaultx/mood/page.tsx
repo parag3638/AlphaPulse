@@ -117,7 +117,41 @@ export default function MarketMoodPage() {
                 </div>
                 {error && <div className="mb-4 text-sm text-red-500 border border-red-500/30 bg-red-500/5 rounded p-3">{error}</div>}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {Array.from({ length: 9 }).map((_, i) => (<Skeleton key={i} className="h-96 rounded-2xl" />))}
+                    {Array.from({ length: 6 }).map((_, i) => (
+                        <Card key={`loading-${i}`} className="h-96 rounded-2xl border-l-4 border-border bg-card">
+                            <CardHeader className="pb-4">
+                                <div className="flex items-start justify-between gap-4">
+                                    <div className="space-y-2 flex-1">
+                                        <Skeleton className="h-5 w-32" />
+                                        <Skeleton className="h-4 w-20" />
+                                    </div>
+                                    <Skeleton className="h-6 w-16 rounded-md" />
+                                </div>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                                <div>
+                                    <Skeleton className="h-4 w-36" />
+                                    <div className="space-y-2 mt-3">
+                                        {Array.from({ length: 2 }).map((_, headlineIdx) => (
+                                            <div key={`headline-${headlineIdx}`} className="p-3 rounded-lg border border-dashed border-border/60 bg-muted/40 space-y-2">
+                                                <Skeleton className="h-3 w-full" />
+                                                <Skeleton className="h-3 w-2/3" />
+                                                <div className="flex items-center justify-between pt-1">
+                                                    <Skeleton className="h-4 w-14 rounded" />
+                                                    <Skeleton className="h-3 w-12" />
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div className="border-t border-dashed border-border/60 pt-4 space-y-2">
+                                    <Skeleton className="h-3 w-32" />
+                                    <Skeleton className="h-3 w-full" />
+                                    {/* <Skeleton className="h-3 w-5/6" /> */}
+                                </div>
+                            </CardContent>
+                        </Card>
+                    ))}
                 </div>
             </div>
         )

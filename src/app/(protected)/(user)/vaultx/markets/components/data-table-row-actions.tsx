@@ -4,7 +4,7 @@ import { DotsHorizontalIcon } from "@radix-ui/react-icons"
 import { Row } from "@tanstack/react-table"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu"
-import { InboxItemSchema } from "../data/schema"
+// import { InboxItemSchema } from "../data/schema"
 import React from "react";
 
 interface DataTableRowActionsProps<TData> {
@@ -13,8 +13,6 @@ interface DataTableRowActionsProps<TData> {
 
 export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TData>) {
 
-  const rowData = InboxItemSchema.parse(row.original)
-  const [isOpen, setIsOpen] = React.useState(false);
 
   return (
     <>

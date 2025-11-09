@@ -10,11 +10,9 @@ import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
 import { RefreshCw, AlertCircle } from "lucide-react"
 import { KeyStat } from "./KeyStat"
-import { Sparkline } from "./Sparkline"
 import { BarTable } from "./BarTable"
 import { Tags } from "./Tags"
 import { fmtPrice, fmtPct, timeAgo } from "@/lib/format"
-// import type { PriceDetailResponse } from "@/types/prices"
 import { getCookie } from "@/lib/cookies"
 
 export type PriceBar1m = {
