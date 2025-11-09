@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -8,6 +9,7 @@ import { ArrowRight, Stethoscope } from "lucide-react"
 
 export default function DesktopHero() {
     const router = useRouter()
+    const [heroLoaded, setHeroLoaded] = useState(false)
 
     return (
 
@@ -26,7 +28,7 @@ export default function DesktopHero() {
                 2xl:[--bgx:0%] 2xl:[--bgy:top]
             "
         >
-            <div className="absolute inset-0 -z-20">
+            <div className="absolute inset-0 -z-20 bg-[#030711]">
                 <Image
                     src="/hero.png"
                     alt="Doctors collaborating with the AlphaPulse assistant"
@@ -35,11 +37,14 @@ export default function DesktopHero() {
                     sizes="100vw"
                     className="object-cover"
                     style={{ objectPosition: "var(--bgx) var(--bgy)" }}
+                    onLoadingComplete={() => setHeroLoaded(true)}
                 />
             </div>
 
             {/* readability overlay */}
-            <div className="absolute inset-0 -z-10 bg-gradient-to-r from-black/60 via-black/20 to-transparent pointer-events-none" />
+            {heroLoaded && (
+                <div className="absolute inset-0 -z-10 bg-gradient-to-r from-black/60 via-black/20 to-transparent pointer-events-none" />
+            )}
 
 
             <div className="min-h-screen flex flex-col w-full">
