@@ -4,7 +4,7 @@ import { useState } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Stethoscope } from "lucide-react"
+import { ArrowRight, Loader2, Stethoscope } from "lucide-react"
 
 
 export default function DesktopHero() {
@@ -46,8 +46,23 @@ export default function DesktopHero() {
                 <div className="absolute inset-0 -z-10 bg-gradient-to-r from-black/60 via-black/20 to-transparent pointer-events-none" />
             )}
 
+            {!heroLoaded && (
+                <div className="absolute inset-0 flex items-center justify-center z-0 text-white">
+                    <div className="flex items-center gap-3 text-sm font-medium tracking-wide">
+                        <Loader2 className="h-5 w-5 animate-spin" aria-label="Loading hero content" />
+                        Preparing experience...
+                    </div>
+                </div>
+            )}
 
-            <div className="min-h-screen flex flex-col w-full">
+
+            <div
+                className={`
+                    min-h-screen flex flex-col w-full transition-opacity duration-300
+                    ${heroLoaded ? "opacity-100" : "opacity-0"}
+                `}
+                aria-hidden={!heroLoaded}
+            >
                 {/* Header */}
                 <header className="absolute top-5 left-1/2 -translate-x-1/2 w-11/12 sm:w-3/4 md:w-4/5 rounded-xl z-50 bg-white/20 backdrop-blur-xs shadow-sm">
                     <div className="container mx-auto px-6 py-4 flex items-center justify-between">
