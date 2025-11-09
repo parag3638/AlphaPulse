@@ -1,21 +1,52 @@
 "use client"
 
+import { useState } from "react"
+import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Stethoscope } from "lucide-react"
+import { ArrowRight, Loader2, Stethoscope } from "lucide-react"
 
 export default function MobileHero() {
   const router = useRouter()
+  const [heroLoaded, setHeroLoaded] = useState(false)
 
   return (
     <section
       id="home"
-      className="relative h-screen flex items-center justify-start bg-cover bg-center"
-      style={{ backgroundImage: "url('/hero.png')" }}
+      className="relative h-screen flex items-center justify-start overflow-hidden"
     >
-      <div className="absolute inset-0 bg-black opacity-10" />
+      <div className="absolute inset-0 -z-20 bg-[#030711]">
+        <Image
+          src="/hero.png"
+          alt="Doctors collaborating with the AlphaPulse assistant"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+          onLoadingComplete={() => setHeroLoaded(true)}
+        />
+      </div>
 
-      <div className="min-h-screen flex flex-col w-full">
+      {heroLoaded && (
+        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/70 via-black/20 to-transparent pointer-events-none" />
+      )}
+
+      {!heroLoaded && (
+        <div className="absolute inset-0 flex items-center justify-center z-0 text-white">
+          <div className="flex items-center gap-3 text-sm font-medium tracking-wide">
+            <Loader2 className="h-5 w-5 animate-spin" aria-label="Loading hero content" />
+            Preparing experience...
+          </div>
+        </div>
+      )}
+
+      <div
+        className={`
+          min-h-screen flex flex-col w-full transition-opacity duration-300
+          ${heroLoaded ? "opacity-100" : "opacity-0"}
+        `}
+        aria-hidden={!heroLoaded}
+      >
         {/* Header */}
         <header className="absolute top-5 left-1/2 -translate-x-1/2 w-11/12 sm:w-3/4 md:w-4/5 rounded-xl z-50 bg-white/20 backdrop-blur-xs shadow-sm">
           <div className="container mx-auto px-6 py-4 flex items-center justify-between">
@@ -60,23 +91,12 @@ export default function MobileHero() {
                 size="lg"
                 variant="outline"
                 onClick={() => router.push("/intake")}
-                // className="group h-12 px-8 text-base font-medium bg-primary text-primary-foreground hover:bg-primary/90 hover:cursor-pointer z-10"
                 className="h-12 px-8 text-base font-medium border-border hover:bg-secondary hover:cursor-pointer z-10"
                 aria-label="Start patient intake process"
               >
                 Patient Check-In
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
               </Button>
-
-              {/* <Button
-                size="lg"
-                variant="outline"
-                onClick={() => router.push("/login")}
-                className="h-12 px-8 text-base font-medium border-border hover:bg-secondary hover:cursor-pointer z-10"
-                aria-label="Access doctor portal"
-              >
-                Doctor Portal
-              </Button> */}
             </div>
 
 
@@ -107,5 +127,4 @@ export default function MobileHero() {
     </section>
   )
 }
-
 

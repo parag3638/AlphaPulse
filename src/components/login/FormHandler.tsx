@@ -51,8 +51,11 @@ export default function FormHandler() {
             return;
         }
 
-        // hardcoded final redirect target
-        const redirectTo = "http://localhost:3000";
+        // derive redirect base from current origin so it works on localhost and hosted envs
+        const redirectTo =
+            typeof window !== "undefined" && window.location?.origin
+                ? window.location.origin
+                : "";
 
         const form = document.createElement("form");
         form.method = "POST";
