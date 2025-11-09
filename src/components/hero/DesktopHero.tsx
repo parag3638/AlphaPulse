@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Stethoscope } from "lucide-react"
@@ -14,25 +15,31 @@ export default function DesktopHero() {
         <section
             id="home"
             className="
-                relative h-screen flex items-center bg-no-repeat
+                relative h-screen flex items-center overflow-hidden
                 /* defaults (mobile-first) */
-                [--bgx:-10%] [--bgy:center] [--bgsize:140%]
+                [--bgx:-10%] [--bgy:center]
                 /* tune per breakpoint */
-                sm:[--bgx:-5%] sm:[--bgsize:140%]
-                md:[--bgx:20%] md:[--bgsize:135%]
-                lg:[--bgx:0%] lg:[--bgsize:142%] lg:[--bgy:top]
-                xl:[--bgx:0%] xl:[--bgsize:125%] xl:[--bgy:top]
-                2xl:[--bgx:0%] 2xl:[--bgsize:105%] 2xl:[--bgy:top]
+                sm:[--bgx:-5%]
+                md:[--bgx:20%]
+                lg:[--bgx:0%] lg:[--bgy:top]
+                xl:[--bgx:0%] xl:[--bgy:top]
+                2xl:[--bgx:0%] 2xl:[--bgy:top]
             "
-            style={{
-                backgroundImage: "url('/hero.png')",
-                backgroundPosition: "var(--bgx) var(--bgy)",
-                backgroundSize: "var(--bgsize)",
-            }}
         >
+            <div className="absolute inset-0 -z-20">
+                <Image
+                    src="/hero.png"
+                    alt="Doctors collaborating with the AlphaPulse assistant"
+                    fill
+                    priority
+                    sizes="100vw"
+                    className="object-cover"
+                    style={{ objectPosition: "var(--bgx) var(--bgy)" }}
+                />
+            </div>
 
             {/* readability overlay */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-transparent pointer-events-none" />
+            <div className="absolute inset-0 -z-10 bg-gradient-to-r from-black/60 via-black/20 to-transparent pointer-events-none" />
 
 
             <div className="min-h-screen flex flex-col w-full">
@@ -97,11 +104,6 @@ export default function DesktopHero() {
                                 AI-Powered Healthcare
                             </div>
                         </div>
-
-
-
-
-
                     </div>
                 </main>
 
@@ -121,7 +123,7 @@ export default function DesktopHero() {
                         </div>
                     </div>
                 </div>
-                
+
                 {/* Footer */}
                 <footer className="border-t border-border/40 py-6 z-10">
                     <div className="container mx-auto px-6 text-center text-sm text-white">
