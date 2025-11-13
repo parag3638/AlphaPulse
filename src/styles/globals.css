@@ -59,17 +59,17 @@ pre {
     --border: 0 0% 89.8%;
     --input: 0 0% 89.8%;
     --ring: 0 0% 3.9%;
-    /* Chart Colors: Different Shades of Rose */
-    --chart-1: 346.8 77.2% 90%;
-    /* Light Rose */
-    --chart-2: 346.8 77.2% 75%;
-    /* Medium Light Rose */
-    --chart-3: 346.8 77.2% 60%;
-    /* Medium Rose */
-    --chart-4: 346.8 77.2% 40%;
-    /* Darker Rose */
-    --chart-5: 346.8 77.2% 30%;
-    /* Dark Rose */
+    /* Chart Colors: Different Shades of Blue */
+    --chart-1: 221.2 80% 90%;
+    /* Light Blue */
+    --chart-2: 221.2 80% 75%;
+    /* Medium Light Blue */
+    --chart-3: 221.2 80% 60%;
+    /* Medium Blue */
+    --chart-4: 221.2 80% 40%;
+    /* Darker Blue */
+    --chart-5: 221.2 80% 30%;
+    /* Dark Blue */
     --radius: 0.5rem;
   }
 

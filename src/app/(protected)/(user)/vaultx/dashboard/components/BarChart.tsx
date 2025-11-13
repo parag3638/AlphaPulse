@@ -61,7 +61,7 @@ export function ChartBarBuckets({
   data,
   title = "Age Distribution",
   description = "Case count by age group",
-  colorVar = "var(--chart-1)",
+  colorVar = "var(--chart-2)",
   trendText = "Trending up this period",
   className,
 }: ChartBarBucketsProps) {
