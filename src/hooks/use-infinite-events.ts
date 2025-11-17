@@ -33,8 +33,10 @@ export function useInfiniteEvents(filters: any) {
       if (cursorRef.current) searchParams.append("cursor", cursorRef.current)
 
       const response = await axios.get(`${BASE_URL}/calendar/events?${searchParams}`, {
-        credentials: "include",
-        cache: "no-store",
+        withCredentials: true,
+        headers: {
+          "Cache-Control": "no-store",
+        },
       })
       const data = response.data
 

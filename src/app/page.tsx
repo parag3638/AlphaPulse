@@ -1,7 +1,6 @@
 import { HeroSection } from "@/components/hero/hero-section"
 import { DashboardPreview } from "@/components/hero/dashboard-preview"
 import { SocialProof } from "@/components/hero/social-proof"
-import { BentoSection } from "@/components/hero/bento-section"
 import { LargeTestimonial } from "@/components/hero/large-testimonial"
 import { FooterSection } from "@/components/hero/footer-section"
 import { AnimatedSection } from "@/components/hero/animated-section"
