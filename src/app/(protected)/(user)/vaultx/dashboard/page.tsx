@@ -58,7 +58,7 @@ type PriceDetail = {
 }
 
 
-export default function DashboardPage({ symbol = timeRangeOptions[0].value }: { symbol?: string }) {
+export default function DashboardPage() {
     const [data, setData] = useState<any>(null);
     const [chart, setChart] = useState<any>(null);
     const [overviewLoading, setOverviewLoading] = useState(true);
@@ -66,12 +66,8 @@ export default function DashboardPage({ symbol = timeRangeOptions[0].value }: { 
     const [error, setError] = useState<string | null>(null);
 
     const [displayName, setDisplayName] = useState("")
-    const [selectedSymbol, setSelectedSymbol] = useState(symbol)
+    const [selectedSymbol, setSelectedSymbol] = useState(timeRangeOptions[0].value)
     const hasLoadedOverview = useRef(false)
-
-    useEffect(() => {
-        setSelectedSymbol(symbol)
-    }, [symbol])
 
     useEffect(() => {
         let cancelled = false
