@@ -38,7 +38,8 @@ export default function MarketMoodPage() {
     const [detailLoading, setDetailLoading] = useState(false)
 
     // point directly to your Express API
-    const API_BASE = useMemo(() => process.env.NEXT_PUBLIC_API_BASE || "http://localhost:9000", [])
+    // const API_BASE = useMemo(() => process.env.NEXT_PUBLIC_API_BASE || "http://localhost:9000", [])
+    const API_BASE = useMemo(() => process.env.NEXT_PUBLIC_API_BASE || "https://authbackend-cc2d.onrender.com", [])
 
     const getSentimentColor = (sentiment: string) => {
         switch (sentiment) {
@@ -72,7 +73,10 @@ export default function MarketMoodPage() {
         try {
             const { data } = await axios.get<InstrumentData[]>(
                 `${API_BASE}/mood/snapshots`,
-                { params: { limitTopHeadlines: 3, returnTrend: false, _ts: Date.now() } }
+                {
+                    params: { limitTopHeadlines: 3, returnTrend: false, _ts: Date.now() },
+                    withCredentials: true,
+                }
             )
             setData(data)
         } catch (e: any) {
@@ -94,7 +98,8 @@ export default function MarketMoodPage() {
             setDetailLoading(true)
             try {
                 const { data } = await axios.get(`${API_BASE}/mood/instruments/${selectedInstrument.symbol}`, {
-                    params: { includeTrend: true, limitHeadlines: 100, _ts: Date.now() }
+                    params: { includeTrend: true, limitHeadlines: 100, _ts: Date.now() },
+                    withCredentials: true,
                 })
                 // the detail response shape matches InstrumentData closely; map if needed
                 setDetail(data)

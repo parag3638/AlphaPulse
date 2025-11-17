@@ -16,7 +16,8 @@ interface DataTableToolbarProps<TData> {
 export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
 
-  const apiBase = (process.env.NEXT_PUBLIC_API_BASE || "http://localhost:9000").replace(/\/$/, "");
+  // const apiBase = (process.env.NEXT_PUBLIC_API_BASE || "http://localhost:9000").replace(/\/$/, "");
+  const apiBase = (process.env.NEXT_PUBLIC_API_BASE || "https://authbackend-cc2d.onrender.com").replace(/\/$/, "");
 
   // ------- helpers -------
   const esc = (v: unknown) => {
@@ -77,8 +78,12 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
       }
 
       const resp = await fetch(url.toString(), {
-        headers: { Accept: "text/csv" },
+        headers: {
+          Accept: "text/csv",
+          // "Cache-Control": "no-store",
+        },
         credentials: "include",
+        // cache: "no-store",
       });
 
       // ⬇️ handle unauthorized first

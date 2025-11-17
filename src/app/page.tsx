@@ -8,27 +8,44 @@ import { AnimatedSection } from "@/components/hero/animated-section"
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden pb-0">
+    <div className="min-h-screen bg-black relative overflow-hidden pb-0">
       <div className="relative z-10">
-        <main className="max-w-[1320px] mx-auto relative">
+        <main className="mx-auto relative">
           <HeroSection />
           {/* Dashboard Preview Wrapper */}
-          <div className="absolute bottom-[-150px] md:bottom-[-400px] left-1/2 transform -translate-x-1/2 z-30">
+
+          <div
+            className="
+              absolute inset-x-0
+              min-[480px]:bottom-[-240px]
+              sm:bottom-[-300px]
+              md:bottom-[-420px]
+              lg:bottom-[-520px]
+              xl:bottom-[-580px]
+              2xl:bottom-[-620px]
+              min-[1380px]:bottom-[-560px]              
+              min-[1450px]:bottom-[-560px]              
+              min-[1600px]:bottom-[-640px]              
+              min-[1700px]:bottom-[-690px]              
+              flex justify-center
+              z-30
+              transition-all duration-300
+            "
+          >
             <AnimatedSection>
               <DashboardPreview />
             </AnimatedSection>
           </div>
+
         </main>
-        <AnimatedSection className="relative z-10 max-w-[1320px] mx-auto px-6 mt-[411px] md:mt-[400px]" delay={0.1}>
+
+        <AnimatedSection className="relative z-10 mx-auto px-6 min-[480px]:mt-[280px] md:mt-[400px] lg:mt-[540px] xl:mt-[600px] 2xl:mt-[600px] min-[1600px]:mt-[720px]" delay={0.1}>
           <SocialProof />
         </AnimatedSection>
-        <AnimatedSection id="features-section" className="relative z-10 max-w-[1320px] mx-auto mt-16" delay={0.2}>
-          <BentoSection />
-        </AnimatedSection>
-        <AnimatedSection className="relative z-10 max-w-[1320px] mx-auto mt-8 md:mt-16" delay={0.2}>
+        <AnimatedSection className="relative z-10 mx-auto mt-8 md:mt-16" delay={0.2}>
           <LargeTestimonial />
         </AnimatedSection>
-        <AnimatedSection className="relative z-10 max-w-[1320px] mx-auto mt-8 md:mt-16" delay={0.2}>
+        <AnimatedSection className="relative z-10 mx-auto mt-8 md:mt-16" delay={0.1}>
           <FooterSection />
         </AnimatedSection>
       </div>

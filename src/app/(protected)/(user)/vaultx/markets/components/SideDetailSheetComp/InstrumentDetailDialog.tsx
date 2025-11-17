@@ -42,7 +42,8 @@ interface InstrumentDetailDialogProps {
   updated?: string | undefined
 }
 
-const API_BASE = (process.env.NEXT_PUBLIC_API_BASE || "http://localhost:9000").replace(/\/$/, "");
+// const API_BASE = (process.env.NEXT_PUBLIC_API_BASE || "http://localhost:9000").replace(/\/$/, "");
+const API_BASE = (process.env.NEXT_PUBLIC_API_BASE || "https://authbackend-cc2d.onrender.com").replace(/\/$/, "");
 
 
 export function InstrumentDetailDialog({ symbol, updated }: InstrumentDetailDialogProps) {

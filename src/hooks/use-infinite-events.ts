@@ -32,7 +32,10 @@ export function useInfiniteEvents(filters: any) {
       searchParams.append("limit", "20")
       if (cursorRef.current) searchParams.append("cursor", cursorRef.current)
 
-      const response = await axios.get(`${BASE_URL}/calendar/events?${searchParams}`)
+      const response = await axios.get(`${BASE_URL}/calendar/events?${searchParams}`, {
+        credentials: "include",
+        cache: "no-store",
+      })
       const data = response.data
 
       setEvents((prev) => [...prev, ...data.items])

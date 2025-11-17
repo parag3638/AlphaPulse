@@ -41,7 +41,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geistVF.variable} ${geistMonoVF.variable}`}>
+    <html lang="en" className={`${geistVF.variable} ${geistMonoVF.variable} bg-black`}>
       <body className="antialiased">
         <main> {children}</main>
         <Toaster />

@@ -83,12 +83,16 @@ export default function DashboardPage({ symbol = timeRangeOptions[0].value }: { 
                     }
                     setError(null)
                     const [detailRes, overviewRes] = await Promise.all([
-                        axios.get<PriceDetail>("http://localhost:9000/finance/detail/daily", {
+                        // axios.get<PriceDetail>("http://localhost:9000/finance/detail/daily", {
+                        axios.get<PriceDetail>("https://authbackend-cc2d.onrender.com/finance/detail/daily", {
                             params: { symbol: selectedSymbol },
-                            withCredentials: false,
+                            withCredentials: true,
+                            // headers: { "Cache-Control": "no-store" },
                         }),
-                        axios.get("http://localhost:9000/finance/overview", {
-                            withCredentials: false,
+                        // axios.get("http://localhost:9000/finance/overview", {
+                        axios.get("https://authbackend-cc2d.onrender.com/finance/overview", {
+                            withCredentials: true,
+                            // headers: { "Cache-Control": "no-store" },
                         }),
                     ])
                     if (!cancelled) {

@@ -6,7 +6,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import type { Event } from "@/lib/types";
 
-const BASE_URL = process.env.NEXT_PUBLIC_APIBASE || "http://localhost:9000";
+// const BASE_URL = process.env.NEXT_PUBLIC_APIBASE || "http://localhost:9000";
+const BASE_URL = process.env.NEXT_PUBLIC_APIBASE || "https://authbackend-cc2d.onrender.com";
 
 const startOfDay = (date: Date) => {
   const normalized = new Date(date)
@@ -68,7 +69,10 @@ export default function CalendarPage() {
       searchParams.append("limit", "20")
       if (cursorRef.current) searchParams.append("cursor", cursorRef.current)
 
-      const response = await axios.get(`${BASE_URL}/calendar/events?${searchParams}`)
+      const response = await axios.get(`${BASE_URL}/calendar/events?${searchParams}`, {
+        withCredentials: true,
+        // headers: { "Cache-Control": "no-store" },
+      })
       const data = response.data
 
       if (requestVersion !== filterVersionRef.current) {
