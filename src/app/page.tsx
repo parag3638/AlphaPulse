@@ -23,7 +23,7 @@ export default function LandingPage() {
               xl:bottom-[-580px]
               2xl:bottom-[-620px]
               min-[1380px]:bottom-[-560px]              
-              min-[1450px]:bottom-[-560px]              
+              min-[1450px]:bottom-[-620px]              
               min-[1600px]:bottom-[-640px]              
               min-[1700px]:bottom-[-690px]              
               flex justify-center
