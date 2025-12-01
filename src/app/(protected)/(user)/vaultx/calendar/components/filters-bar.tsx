@@ -60,7 +60,7 @@ export const FiltersBar: FC<FilterBarProps> = ({ filters, onApply }) => {
   const handleClear = () => {
     const defaultFilters = {
       from: normalizeDate(new Date(), "start"),
-      to: normalizeDate(new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), "end"),
+      to: normalizeDate(new Date(Date.now() + 21 * 24 * 60 * 60 * 1000), "end"),
       markets: [],
       impacts: [],
       types: [],

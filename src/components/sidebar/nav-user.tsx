@@ -54,7 +54,12 @@ import { useUser } from "@/components/auth/UserContext";
 export function NavUser() {
 
   const { isMobile } = useSidebar()
-  const user: any = useUser() || null;
+  const defaultUser = {
+    name: "Adam Smith",
+    email: "Adam.Smith@Company.com",
+    avatar: "",
+  };
+  const user: any = { ...defaultUser, ...(useUser() ?? {}) };
 
   const router = useRouter();
 

@@ -44,8 +44,8 @@ const data = {
     },
   ],
   projects: [
-    { name: "Market Mood", url: "/vaultx/mood", icon: Newspaper },
-    { name: "Future Events", url: "/vaultx/calendar", icon: Calendar1 },
+    { name: "News Analytics", url: "/vaultx/mood", icon: Newspaper },
+    { name: "AI Foresight", url: "/vaultx/calendar", icon: Calendar1 },
   ],
 };
 

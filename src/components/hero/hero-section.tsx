@@ -26,11 +26,16 @@ export function HeroSection() {
             <span className="text-xl font-semibold tracking-tight text-white">AlphaPulse</span>
           </div>
 
-          <Link href="/login" rel="noopener noreferrer" className="hidden md:block">
+          <Link href="/vaultx/dashboard" rel="noopener noreferrer" className="hidden md:block">
+            <Button className="bg-secondary text-secondary-foreground hover:bg-secondary/80 px-4 py-5 rounded-lg font-medium shadow-sm">
+              Go to Dashboard
+            </Button>
+          </Link>
+          {/* <Link href="/login" rel="noopener noreferrer" className="hidden md:block">
             <Button className="bg-secondary text-secondary-foreground hover:bg-secondary/80 px-8 py-4 rounded-lg font-medium shadow-sm">
               Login
             </Button>
-          </Link>
+          </Link> */}
         </div>
       </header>
 
@@ -47,7 +52,7 @@ export function HeroSection() {
         </p>
 
         <Link
-          href="/login"
+          href="/vaultx/dashboard"
           rel="noopener noreferrer"
           className="relative z-10"
         >

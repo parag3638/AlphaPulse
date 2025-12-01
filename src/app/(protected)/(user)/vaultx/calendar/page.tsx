@@ -33,7 +33,7 @@ const decodeCursor = (cursor: string | null) => {
 export default function CalendarPage() {
   const [filters, setFilters] = useState({
     from: startOfDay(new Date()),
-    to: endOfDay(new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)),
+    to: endOfDay(new Date(Date.now() + 21 * 24 * 60 * 60 * 1000)),
     markets: [] as string[],
     impacts: [] as string[],
     types: [] as string[],

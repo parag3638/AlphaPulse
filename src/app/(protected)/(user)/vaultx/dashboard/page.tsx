@@ -65,58 +65,122 @@ export default function DashboardPage() {
     const [chartLoading, setChartLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    const [displayName, setDisplayName] = useState("")
+    // const [displayName, setDisplayName] = useState("")
     const [selectedSymbol, setSelectedSymbol] = useState(timeRangeOptions[0].value)
     const hasLoadedOverview = useRef(false)
 
+    // useEffect(() => {
+    //     let cancelled = false
+    //         ; (async () => {
+    //             try {
+    //                 setChartLoading(true)
+    //                 if (!hasLoadedOverview.current) {
+    //                     setOverviewLoading(true)
+    //                 }
+    //                 setError(null)
+    //                 const [detailRes, overviewRes] = await Promise.all([
+    //                     // axios.get<PriceDetail>("http://localhost:9000/finance/detail/daily", {
+    //                     axios.get<PriceDetail>("https://authbackend-cc2d.onrender.com/finance/detail/daily", {
+    //                         params: { symbol: selectedSymbol },
+    //                         withCredentials: true,
+    //                         // headers: { "Cache-Control": "no-store" },
+    //                     }),
+    //                     // axios.get("http://localhost:9000/finance/overview", {
+    //                     axios.get("https://authbackend-cc2d.onrender.com/finance/overview", {
+    //                         withCredentials: true,
+    //                         // headers: { "Cache-Control": "no-store" },
+    //                     }),
+    //                 ])
+    //                 if (!cancelled) {
+    //                     setChart(detailRes.data)
+    //                     setData(overviewRes.data)
+    //                     hasLoadedOverview.current = true
+    //                 }
+    //             } catch (err: any) {
+    //                 if (!cancelled) setError(err?.message || "Failed to load")
+    //             } finally {
+    //                 if (!cancelled) {
+    //                     setChartLoading(false)
+    //                     setOverviewLoading(false)
+    //                 }
+    //             }
+    //         })()
+    //     return () => {
+    //         cancelled = true
+    //     }
+    // }, [selectedSymbol])
+
+
     useEffect(() => {
         let cancelled = false
+
             ; (async () => {
                 try {
-                    setChartLoading(true)
-                    if (!hasLoadedOverview.current) {
-                        setOverviewLoading(true)
-                    }
+                    setOverviewLoading(true)
                     setError(null)
-                    const [detailRes, overviewRes] = await Promise.all([
-                        // axios.get<PriceDetail>("http://localhost:9000/finance/detail/daily", {
-                        axios.get<PriceDetail>("https://authbackend-cc2d.onrender.com/finance/detail/daily", {
-                            params: { symbol: selectedSymbol },
-                            withCredentials: true,
-                            // headers: { "Cache-Control": "no-store" },
-                        }),
-                        // axios.get("http://localhost:9000/finance/overview", {
-                        axios.get("https://authbackend-cc2d.onrender.com/finance/overview", {
-                            withCredentials: true,
-                            // headers: { "Cache-Control": "no-store" },
-                        }),
-                    ])
+
+                    const overviewRes = await axios.get("https://authbackend-cc2d.onrender.com/finance/overview", {
+                        withCredentials: true,
+                    })
+
                     if (!cancelled) {
-                        setChart(detailRes.data)
                         setData(overviewRes.data)
                         hasLoadedOverview.current = true
                     }
                 } catch (err: any) {
-                    if (!cancelled) setError(err?.message || "Failed to load")
+                    if (!cancelled) setError(err?.message || "Failed to load overview")
                 } finally {
                     if (!cancelled) {
-                        setChartLoading(false)
                         setOverviewLoading(false)
                     }
                 }
             })()
+
+        return () => {
+            cancelled = true
+        }
+    }, [])  // <--- NO selectedSymbol here
+
+
+    useEffect(() => {
+        let cancelled = false
+
+            ; (async () => {
+                try {
+                    setChartLoading(true)
+                    setError(null)
+
+                    const detailRes = await axios.get<PriceDetail>(
+                        "https://authbackend-cc2d.onrender.com/finance/detail/daily",
+                        {
+                            params: { symbol: selectedSymbol },
+                            withCredentials: true,
+                        }
+                    )
+
+                    if (!cancelled) {
+                        setChart(detailRes.data)
+                    }
+                } catch (err: any) {
+                    if (!cancelled) setError(err?.message || "Failed to load chart")
+                } finally {
+                    if (!cancelled) {
+                        setChartLoading(false)
+                    }
+                }
+            })()
+
         return () => {
             cancelled = true
         }
     }, [selectedSymbol])
 
-
-
+    
+    const displayName = chart?.name ?? selectedSymbol
 
     const chartData = useMemo(() => {
         if (!chart?.rows?.length) return []
 
-        // Group by date (YYYY-MM-DD) and take the latest timestamp
         const dailyMap = new Map<string, { ts: string; close: number }>()
 
         chart.rows.forEach((r: any) => {
@@ -127,12 +191,11 @@ export default function DashboardPage() {
             }
         })
 
-        setDisplayName(chart?.name ?? selectedSymbol);
-
         return Array.from(dailyMap.entries())
             .map(([day, obj]) => ({ date: obj.ts, price: obj.close }))
             .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-    }, [chart, selectedSymbol])
+    }, [chart])
+
 
 
     const getValue = (obj: any, path: any, def: any) =>
@@ -240,7 +303,9 @@ export default function DashboardPage() {
                                         ) : (
                                             <>
                                                 {/* Asset Name */}
-                                                <CardTitle className="text-2xl font-semibold text-foreground truncate mb-1">{displayName}</CardTitle>
+                                                <CardTitle className="text-2xl font-semibold text-foreground truncate mb-1">
+                                                    {displayName}
+                                                </CardTitle>
 
                                                 {/* Exchange and Asset Type */}
                                                 <p className="text-sm text-muted-foreground">
@@ -392,8 +457,6 @@ export default function DashboardPage() {
                         </>
                     )}
                 </div>
-
-
             </div>
         </div >
     );
