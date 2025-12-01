@@ -1,9 +1,10 @@
+
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle, CardFooter, CardDescription } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator"
 import { AlertCircleIcon, Timer, CircleAlert, HeartPulse, Bell, CalendarDays, TrendingUp, BarChart3 } from "lucide-react";
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import { ChartBarBuckets } from "./components/BarChart";
 import StatusPie from "./components/ProductWiseAlert";
@@ -57,17 +58,16 @@ type PriceDetail = {
     last_close_dt: string
 }
 
-
 export default function DashboardPage() {
     const [data, setData] = useState<any>(null);
     const [chart, setChart] = useState<any>(null);
     const [overviewLoading, setOverviewLoading] = useState(true);
     const [chartLoading, setChartLoading] = useState(true);
+    const [initialReady, setInitialReady] = useState(false); // gate full dashboard until both loads finish once
     const [error, setError] = useState<string | null>(null);
 
     // const [displayName, setDisplayName] = useState("")
     const [selectedSymbol, setSelectedSymbol] = useState(timeRangeOptions[0].value)
-    const hasLoadedOverview = useRef(false)
 
     // useEffect(() => {
     //     let cancelled = false
@@ -110,7 +110,6 @@ export default function DashboardPage() {
     //     }
     // }, [selectedSymbol])
 
-
     useEffect(() => {
         let cancelled = false
 
@@ -125,7 +124,6 @@ export default function DashboardPage() {
 
                     if (!cancelled) {
                         setData(overviewRes.data)
-                        hasLoadedOverview.current = true
                     }
                 } catch (err: any) {
                     if (!cancelled) setError(err?.message || "Failed to load overview")
@@ -140,7 +138,6 @@ export default function DashboardPage() {
             cancelled = true
         }
     }, [])  // <--- NO selectedSymbol here
-
 
     useEffect(() => {
         let cancelled = false
@@ -175,7 +172,6 @@ export default function DashboardPage() {
         }
     }, [selectedSymbol])
 
-    
     const displayName = chart?.name ?? selectedSymbol
 
     const chartData = useMemo(() => {
@@ -195,8 +191,6 @@ export default function DashboardPage() {
             .map(([day, obj]) => ({ date: obj.ts, price: obj.close }))
             .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
     }, [chart])
-
-
 
     const getValue = (obj: any, path: any, def: any) =>
         path.split(/[.[\]]+/).filter(Boolean).reduce((o: any, p: any) => o?.[p], obj) ?? def;
@@ -220,7 +214,15 @@ export default function DashboardPage() {
         )
     }, [data?.charts?.impactMix])
 
+    // Unlock the dashboard only after both overview and chart have finished loading once.
+    useEffect(() => {
+        if (!initialReady && !overviewLoading && !chartLoading) {
+            setInitialReady(true)
+        }
+    }, [initialReady, overviewLoading, chartLoading])
 
+    const showOverviewSkeleton = !initialReady || overviewLoading
+    const showChartSkeleton = !initialReady || chartLoading
 
     if (error) {
         return (
@@ -261,7 +263,7 @@ export default function DashboardPage() {
                                 <item.icon className="h-4 w-4 text-muted-foreground" />
                             </CardHeader>
                             <CardContent className="px-6 py-2">
-                                {overviewLoading ? (
+                                {showOverviewSkeleton ? (
                                     <div className="flex flex-col space-y-2">
                                         <Skeleton className="h-6 w-[100px]" />
                                         <Skeleton className="h-4 w-[140px]" />
@@ -295,7 +297,7 @@ export default function DashboardPage() {
                                 {/* Header top row - title and time selector */}
                                 <div className="flex items-start justify-between gap-4">
                                     <div className="flex-1 min-w-0">
-                                        {chartLoading ? (
+                                        {showChartSkeleton ? (
                                             <div className="space-y-2">
                                                 <Skeleton className="h-7 w-48" />
                                                 <Skeleton className="h-4 w-32" />
@@ -340,9 +342,8 @@ export default function DashboardPage() {
                                 </div>
                             </CardHeader>
 
-
                             <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
-                                {chartLoading && (
+                                {showChartSkeleton && (
                                     <div className="space-y-6">
                                         <div className="space-y-3">
                                             <Skeleton className="h-6 w-40" />
@@ -352,7 +353,7 @@ export default function DashboardPage() {
                                     </div>
                                 )}
                                 {error && <div className="text-sm text-red-500">{error}</div>}
-                                {!chartLoading && !error && (
+                                {!showChartSkeleton && !error && (
                                     <>
                                         <CardDescription className="flex">
                                             <div className="flex items-baseline gap-2">
@@ -381,13 +382,12 @@ export default function DashboardPage() {
                     </div>
                 </div>
 
-
                 <div className="grid gap-4
                         grid-cols-1
                         lg:grid-cols-2
                         2xl:grid-cols-12">
                     {/* Charts — stack on small, 2-up on md, 3-up on xl/2xl */}
-                    {overviewLoading ? (
+                    {showOverviewSkeleton ? (
                         <>
                             <>
                                 {Array.from({ length: 4 }).map((_, i) => (
